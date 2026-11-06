@@ -50,7 +50,7 @@ class MainWindow(QMainWindow):
         if order is not None and hasattr(page, 'set_order'):
             page.set_order(order)
         self.stack.setCurrentWidget(page)
-        self.setWindowTitle(page.windowTitle())
+        self.setWindowTitle("Магазин обуви — управление заказами")
 
         if self.window() is not None:
             self.window().setWindowTitle(page.windowTitle())
