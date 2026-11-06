@@ -134,7 +134,7 @@ class LoginPage(QWidget):
             self.app_window.current_user = user
             self.go_to_product(True, user)
         else:
-            self.show_warning("Неверный логин или пароль")
+            self.show_warning("Проверьте правильность введённых логина и пароля")
     #оповещение о неверном действии
     def show_warning(self, text):
         msg = QMessageBox()
