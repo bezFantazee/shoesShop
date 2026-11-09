@@ -1,7 +1,7 @@
 import configparser
 from pathlib import Path
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.engine import URL
 from sqlalchemy.orm import sessionmaker
 
@@ -38,3 +38,15 @@ SessionLocal = sessionmaker(bind=engine)
 
 def get_session():
     return SessionLocal()
+
+def check_connection():
+    try:
+        with engine.connect() as connection:
+            connection.execute(text("SELECT 1"))
+        return True
+    except Exception:
+        print(
+            "Не удалось подключиться к базе данных. "
+            "Проверьте настройки подключения в файле config.ini."
+        )
+        return False
