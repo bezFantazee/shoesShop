@@ -6,20 +6,23 @@ from sqlalchemy.engine import URL
 from sqlalchemy.orm import sessionmaker
 
 
-# Путь к config.ini в корне проекта
+DB_CONNECTION_ERROR = (
+    "Не удалось подключиться к базе данных. "
+    "Проверьте настройки подключения в файле config.ini."
+)
+
 CONFIG_PATH = Path(__file__).resolve().parents[2] / "config.ini"
 
-# Чтение конфигурации
 config = configparser.ConfigParser()
 
 if not config.read(CONFIG_PATH, encoding="utf-8"):
     raise FileNotFoundError(
-        f"Файл конфигурации не найден: {CONFIG_PATH}"
+        "Файл конфигурации config.ini не найден. "
+        "Создайте его в корне проекта на основе config.ini.example."
     )
 
 db = config["database"]
 
-# Формирование адреса подключения
 DATABASE_URL = URL.create(
     drivername="postgresql+psycopg",
     username=db["user"],
@@ -29,15 +32,14 @@ DATABASE_URL = URL.create(
     database=db["name"]
 )
 
-# Создание подключения к базе данных
 engine = create_engine(DATABASE_URL, echo=False)
 
-# Создание фабрики сессий
 SessionLocal = sessionmaker(bind=engine)
 
 
 def get_session():
     return SessionLocal()
+
 
 def check_connection():
     try:
@@ -45,8 +47,5 @@ def check_connection():
             connection.execute(text("SELECT 1"))
         return True
     except Exception:
-        print(
-            "Не удалось подключиться к базе данных. "
-            "Проверьте настройки подключения в файле config.ini."
-        )
+        print(DB_CONNECTION_ERROR)
         return False
