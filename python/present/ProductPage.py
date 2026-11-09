@@ -5,6 +5,9 @@ from PySide6.QtGui import QPixmap, Qt
 from python.database.models.Shoe import Shoe
 
 
+ONLY_QUANTITY = 0
+
+
 #карточка продукта
 class ProductCard(QWidget):
     def __init__(self, product: Shoe):
@@ -123,7 +126,7 @@ class ProductCard(QWidget):
         self.layout.addLayout(self.sales_layout)
 
     def is_empty_stock(self):
-        if self.product.quantity_in_stock == 0:
+        if self.product.quantity_in_stock == ONLY_QUANTITY:
             self.product_quantity_in_stock.setStyleSheet("color: blue; border: none;")
 
     #отрисовка странички
