@@ -123,7 +123,7 @@ class ProductCard(QWidget):
         self.layout.addLayout(self.sales_layout)
 
     def is_empty_stock(self):
-        if self.product.quantity_in_stock == 0:
+        if self.product.quantity_in_stock == 0: # изменение отображения в зависимости от количества
             self.product_quantity_in_stock.setStyleSheet("color: blue; border: none;")
 
     #отрисовка странички
