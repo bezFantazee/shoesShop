@@ -1,8 +1,8 @@
-from python.database.connection import get_session, engine
-from python.database.models.Order import Order
-from python.database.models.OrderItem import OrderItem
-from python.database.models.PickupPoint import PickupPoint
-from python.database.models.Shoe import Shoe
+from database.connection import get_session, engine
+from database.models.Order import Order
+from database.models.OrderItem import OrderItem
+from database.models.PickupPoint import PickupPoint
+from database.models.Shoe import Shoe
 
 
 class OrderController:

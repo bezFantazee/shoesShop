@@ -1,5 +1,5 @@
-from python.database.connection import get_session
-from python.database.models.PickupPoint import PickupPoint
+from database.connection import get_session
+from database.models.PickupPoint import PickupPoint
 from sqlalchemy import func
 
 class PickupPointController:

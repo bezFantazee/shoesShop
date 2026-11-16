@@ -1,12 +1,12 @@
-from python.database.connection import get_session
 import pandas as pd
 from datetime import datetime
 
-from python.database.models.OrderItem import OrderItem
-from python.database.models.PickupPoint import PickupPoint
-from python.database.models.Shoe import Shoe
-from python.database.models.User import User
-from python.database.models.Order import Order
+from database.models.OrderItem import OrderItem
+from database.models.PickupPoint import PickupPoint
+from database.models.Shoe import Shoe
+from database.models.User import User
+from database.models.Order import Order
+from database.connection import get_session
 
 
 def is_empty_data(table):

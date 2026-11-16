@@ -1,5 +1,5 @@
-from python.database.connection import get_session
-from python.database.models.User import User
+from database.connection import get_session
+from database.models.User import User
 
 
 class AuthController:

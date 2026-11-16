@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import *
 
-from python.database.models.Order import Order
+from database.models.Order import Order
 
 #карточка товара
 class OrderCard(QWidget):

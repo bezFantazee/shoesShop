@@ -1,6 +1,6 @@
 from sqlalchemy import select
-from python.database.connection import get_session
-from python.database.models.Shoe import Shoe
+from database.connection import get_session
+from database.models.Shoe import Shoe
 
 class ProductController:
     def __init__(self):

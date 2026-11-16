@@ -1,7 +1,7 @@
 from sqlalchemy import *
 from sqlalchemy.orm import relationship
 
-from python.database.Base import Base
+from database.Base import Base
 
 
 class OrderItem(Base):

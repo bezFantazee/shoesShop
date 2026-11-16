@@ -3,7 +3,7 @@ from datetime import datetime
 from PySide6.QtWidgets import *
 from PySide6.QtCore import QDate
 
-from python.database.models.Order import Order
+from database.models.Order import Order
 
 
 class EditOrderPage(QWidget):

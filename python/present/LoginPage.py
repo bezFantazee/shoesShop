@@ -2,7 +2,7 @@ from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 from PySide6.QtGui import QPixmap, Qt, QIcon
 
-from python.controllers.AuthController import AuthController
+from controllers.AuthController import AuthController
 
 
 class LoginPage(QWidget):

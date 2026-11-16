@@ -1,0 +1,14 @@
+.git
+.venv
+venv
+__pycache__
+*.pyc
+config.ini
+.env
+build
+dist
+# docker/db-check/.dockerignore
+__pycache__
+*.pyc
+.env
+.venv

@@ -2,11 +2,10 @@ from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 from PySide6.QtGui import QPixmap, Qt
 
-from python.database.models.Shoe import Shoe
+from database.models.Shoe import Shoe
 
 
 ONLY_QUANTITY = 0
-
 
 #карточка продукта
 class ProductCard(QWidget):

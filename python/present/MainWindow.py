@@ -1,14 +1,14 @@
 from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 
-from python.controllers.OrderController import OrderController
-from python.controllers.PickupPointController import PickupPointController
-from python.controllers.ProductController import ProductController
-from python.present.EditOrderPage import EditOrderPage
-from python.present.EditProductPage import EditProductPage
-from python.present.LoginPage import LoginPage
-from python.present.OrderPage import OrderPage
-from python.present.ProductPage import ProductPage
+from controllers.OrderController import OrderController
+from controllers.PickupPointController import PickupPointController
+from controllers.ProductController import ProductController
+from present.EditOrderPage import EditOrderPage
+from present.EditProductPage import EditProductPage
+from present.LoginPage import LoginPage
+from present.OrderPage import OrderPage
+from present.ProductPage import ProductPage
 from PySide6.QtGui import QIcon
 
 
