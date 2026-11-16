@@ -169,3 +169,119 @@ docker compose start
 ```
 
 Остановка не удаляет контейнеры и данные базы данных.
+
+
+## Постоянное хранение и сети
+
+### 1. Постоянное хранение данных PostgreSQL
+
+Для обеспечения сохранности данных PostgreSQL используется именованный Docker-том `db_data`.
+
+Том подключается к каталогу `/var/lib/postgresql/data` контейнера PostgreSQL. Благодаря этому данные базы сохраняются независимо от пересоздания контейнера.
+
+Для просмотра существующих томов используется команда:
+
+```powershell
+docker volume ls
+```
+
+Для проверки состояния тома:
+
+```powershell
+docker volume inspect shoes-master_db_data
+```
+
+### 2. Создание резервной копии базы данных
+
+Резервная копия создаётся с помощью утилиты `pg_dump` внутри контейнера PostgreSQL:
+
+```powershell
+docker compose exec db pg_dump -U shoe_user -d shoe_store -f /tmp/shoe_store_backup.sql
+```
+
+Затем файл копируется на компьютер:
+
+```powershell
+mkdir backups
+docker compose cp db:/tmp/shoe_store_backup.sql ./backups/shoe_store_backup.sql
+```
+
+Каталог `backups/` исключён из Git и предназначен для локального хранения резервных копий.
+
+### 3. Восстановление базы данных
+
+Для восстановления резервная копия сначала копируется в контейнер:
+
+```powershell
+docker compose cp ./backups/shoe_store_backup.sql db:/tmp/restore.sql
+```
+
+Затем выполняется импорт:
+
+```powershell
+docker compose exec db psql -v ON_ERROR_STOP=1 -U shoe_user -d shoe_store -f /tmp/restore.sql
+```
+
+### 4. Запуск инфраструктуры
+
+Для проверки конфигурации:
+
+```powershell
+docker compose config --quiet
+```
+
+Для запуска контейнеров:
+
+```powershell
+docker compose up -d
+```
+
+Для просмотра состояния сервисов:
+
+```powershell
+docker compose ps
+```
+
+Для проверки подключения к базе данных:
+
+```powershell
+docker compose run --rm db-check
+```
+
+Для остановки контейнеров без удаления томов:
+
+```powershell
+docker compose down
+```
+
+### 5. Сетевая конфигурация
+
+Для взаимодействия сервисов используется пользовательская Docker-сеть `shoe-backend` с драйвером `bridge`.
+
+Сервис `db` доступен внутри сети по адресу `db:5432`.
+
+Сервис `db-check` подключается к PostgreSQL по имени `db` и внутреннему порту `5432`.
+
+PyQt5-приложение, запущенное в Windows, подключается к PostgreSQL через `localhost:5433`.
+
+Порт PostgreSQL опубликован только на локальном интерфейсе `127.0.0.1`, что ограничивает доступ к базе данных с других сетевых интерфейсов компьютера.
+
+Для просмотра сетей:
+
+```powershell
+docker network ls
+```
+
+Для проверки параметров сети:
+
+```powershell
+docker network inspect shoes-master_shoe-backend
+```
+
+### 6. Важное замечание
+
+Команда `docker compose down` удаляет контейнеры и сети проекта, но сохраняет именованные тома.
+
+Команда `docker compose down -v` дополнительно удаляет именованные тома и может привести к потере данных PostgreSQL.
+
+Поэтому перед удалением томов необходимо создавать резервную копию базы данных.
