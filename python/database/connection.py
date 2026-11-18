@@ -1,5 +1,5 @@
 import configparser
-from pathlib import Path
+from resource_path import external_config_path
 
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import URL
@@ -11,7 +11,7 @@ DB_CONNECTION_ERROR = (
     "Проверьте настройки подключения в файле config.ini."
 )
 
-CONFIG_PATH = Path(__file__).resolve().parents[2] / "config.ini"
+CONFIG_PATH = external_config_path()
 
 config = configparser.ConfigParser()
 

@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 from PySide6.QtGui import QPixmap, Qt, QIcon
+from resource_path import resource_path
 
 from controllers.AuthController import AuthController
 
@@ -18,9 +19,8 @@ class LoginPage(QWidget):
         main_layout  = QVBoxLayout(self)
         self.setStyleSheet("font-family: 'Times New Roman';")
         #заголовок
-        image_path = QDir.currentPath() + "/present/images/Icon.ico"
-        image_path = image_path.replace("\\", "/")
-        shop_image = QPixmap(image_path)
+        image_path = resource_path("present/images/Icon.ico")
+        shop_image = QPixmap(str(image_path))
         shop_image_label = QLabel()
         shop_image_label.setFixedSize(80, 80)
         shop_image_label.setPixmap(shop_image.scaled(

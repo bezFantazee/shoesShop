@@ -10,12 +10,13 @@ from present.LoginPage import LoginPage
 from present.OrderPage import OrderPage
 from present.ProductPage import ProductPage
 from PySide6.QtGui import QIcon
+from resource_path import resource_path
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowIcon(QIcon("present/images/Icon.ico"))
+        self.setWindowIcon(QIcon(str(resource_path("present/images/Icon.ico"))))
         #необходимые переменные
         self.stack = QStackedWidget()
         self.setCentralWidget(self.stack)

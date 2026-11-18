@@ -3,6 +3,8 @@ from PySide6.QtGui import *
 from PySide6.QtCore import *
 import os
 import shutil
+from pathlib import Path
+from resource_path import image_path, images_directory
 
 class EditProductPage(QWidget):
     def __init__(self, app_window):
@@ -170,38 +172,46 @@ class EditProductPage(QWidget):
     def save_image_to_project(self, source_path: str):
         if not source_path:
             return None
-        destination_dir = "present/images"
-        os.makedirs(destination_dir, exist_ok=True)
+
+        destination_dir = images_directory()
+        destination_dir.mkdir(parents=True, exist_ok=True)
 
         file_name = os.path.basename(source_path)
-        destination_path = os.path.join(destination_dir, file_name)
+        destination_path = destination_dir / file_name
 
         try:
             shutil.copy2(source_path, destination_path)
-            return destination_path
+            return str(destination_path)
         except Exception as e:
-            print(f"Ошибка при копировании файла {e}")
+            print(f"Ошибка сохранения изображения: {e}")
             return None
 
     def delete_image(self, image_name):
-        image_dir = 'present/images'
+        if not image_name:
+            return
 
-        file_path = os.path.join(image_dir, image_name)
-        if os.path.exists(file_path) and image_name not in ['picture.png']:
+        file_name = Path(image_name).name
+
+        if file_name == "picture.png":
+            return
+
+        file_path = images_directory() / file_name
+
+        if file_path.exists():
             try:
-                os.remove(file_path)
+                file_path.unlink()
             except OSError as e:
-                print(f"Ошибка при удалении файла {file_path}: {e}")
+                print(f"Ошибка удаления изображения: {e}")
 
     #установка изображения на экране
     def set_image(self, file_path):
-        pixmap = QPixmap(file_path)
+        pixmap = QPixmap(str(image_path(file_path)))
 
         if not pixmap.isNull():
             self.image_label.setPixmap(pixmap)
         else:
-            placeholder = QPixmap("present/images/picture.png")
-            self.image_label.setPixmap(placeholder)
+            self.image_label.clear()
+
     #сохраняем товар
     def save_product(self):
 

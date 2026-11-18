@@ -1,8 +1,10 @@
 from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 from PySide6.QtGui import QPixmap, Qt
+from pathlib import Path
 
 from database.models.Shoe import Shoe
+from resource_path import image_path
 
 
 ONLY_QUANTITY = 0
@@ -130,22 +132,12 @@ class ProductCard(QWidget):
 
     #отрисовка странички
     def set_image(self, image_name, placeholder_path="present/images/picture.png"):
-        image_path = QDir.currentPath() + "/present/images/" + image_name
-        image_path = image_path.replace("\\", "/")
-        if QFileInfo(image_path):
-            target_pimax = QPixmap(image_path)
+        target_pixmap = QPixmap(str(image_path(image_name)))
+
+        if not target_pixmap.isNull():
+            self.image_label.setPixmap(target_pixmap)
         else:
-            target_pimax = QPixmap()
-
-        placeholder_pixmap = None
-
-        if not target_pimax.isNull():
-            self.image_label.setPixmap(target_pimax)
-        else:
-            if QFileInfo(placeholder_path).exists():
-                placeholder_pixmap = QPixmap(placeholder_path)
-            self.image_label.setPixmap(placeholder_pixmap)
-
+            self.image_label.clear()
 
     def set_sale(self, price, sale):
         self.clear_layout(self.price_container_layout)
